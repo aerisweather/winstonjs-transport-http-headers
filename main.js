@@ -6,7 +6,7 @@ var HttpHeaderTransport = function (options) {
 	WinstonTransport.call(this, options);
 	options = options || {};
 	this.silent = (options.silent !== undefined) ? options.silent : false;
-	this.level = options.level || 'profile';
+	this.level = options.level || 'debug';
 
 	this.getHeaderPrefix = options.getHeaderPrefix || getHeaderPrefix;
 	this.cleanId = options.cleanId || cleanSpacesCamelCase;
@@ -23,7 +23,12 @@ HttpHeaderTransport.prototype.log = function (level, msg, data, callback) {
 	}
 
 	var id;
-	if (data && data.id) {
+	if(data && data.durationMs) {
+		// Special case for logger.profile style timing methods.
+		id = this.cleanId(this.getHeaderPrefix(level, msg));
+		this.setHeader(id, data.durationMs);
+	}
+	else if (data && data.id) {
 		// Set header based on a user specified id.
 		id = this.cleanId(this.getHeaderPrefix(level, data.id));
 		this.setHeader(id, msg);
@@ -47,7 +52,7 @@ HttpHeaderTransport.prototype.getNextId = function () {
 HttpHeaderTransport.prototype.name = 'httpHeaders';
 
 function getHeaderPrefix(a, b) {
-	return 'X-Debug-' + a + '-' + b + '-';
+	return 'X-Logger-' + a + '-' + b + '-';
 }
 
 function cleanSpacesCamelCase(str) {
