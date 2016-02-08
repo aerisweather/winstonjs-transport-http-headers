@@ -1,11 +1,11 @@
-var assert = require('assert');
+var assert = require('assert'),
 	HttpHeaderTransport = require('./../main');
 
-describe("HTTP Header Transport", function() {
-	describe("Construction Options", function() {
-		it("Should have sane defaults", function(done) {
+describe("HTTP Header Transport", function () {
+	describe("Construction Options", function () {
+		it("Should have sane defaults", function (done) {
 			var transport = new HttpHeaderTransport();
-			transport.log('debug', 'Hello World', function(err, result) {
+			transport.log('debug', 'Hello World', function (err, result) {
 				assert.ifError(err);
 				assert.equal(result.key, 'x-logger-0-debug');
 				assert.equal(result.value, 'Hello World');
@@ -13,9 +13,9 @@ describe("HTTP Header Transport", function() {
 			});
 		});
 
-		it("Should emit an event", function(done) {
+		it("Should emit an event", function (done) {
 			var transport = new HttpHeaderTransport();
-			transport.on('logged', function(result) {
+			transport.on('logged', function (result) {
 				assert.equal(result.key, 'x-logger-0-debug');
 				assert.equal(result.value, 'Hello World');
 				done();
@@ -23,11 +23,11 @@ describe("HTTP Header Transport", function() {
 			transport.log('debug', 'Hello World');
 		});
 
-		it("Should be silent", function(done) {
+		it("Should be silent", function (done) {
 			var transport = new HttpHeaderTransport({
 				silent: true
 			});
-			transport.log('debug', 'Hello World', function(err, result) {
+			transport.log('debug', 'Hello World', function (err, result) {
 				assert.ifError(err);
 				assert.deepEqual(result, {});
 				done();
@@ -35,13 +35,13 @@ describe("HTTP Header Transport", function() {
 		});
 	});
 
-	describe("Specific Id", function() {
+	describe("Specific Id", function () {
 		var mockResponse;
-		beforeEach(function() {
+		beforeEach(function () {
 			mockResponse = new MockResponse();
 		});
 
-		it("Should log with a specified id", function() {
+		it("Should log with a specified id", function () {
 			var transport = new HttpHeaderTransport({
 				setHeader: mockResponse.setHeader.bind(mockResponse)
 			});
@@ -50,7 +50,7 @@ describe("HTTP Header Transport", function() {
 			assert.equal(mockResponse.headers['x-logger-debug-foo'], 'Hello World');
 		});
 
-		it("Should overwrite an existing id", function() {
+		it("Should overwrite an existing id", function () {
 			var transport = new HttpHeaderTransport({
 				setHeader: mockResponse.setHeader.bind(mockResponse)
 			});
@@ -60,7 +60,7 @@ describe("HTTP Header Transport", function() {
 			assert.equal(mockResponse.headers['x-logger-debug-foo'], 'Bar');
 		});
 
-		it("Should log multiple id specified keys", function() {
+		it("Should log multiple id specified keys", function () {
 			var transport = new HttpHeaderTransport({
 				setHeader: mockResponse.setHeader.bind(mockResponse)
 			});
@@ -72,13 +72,13 @@ describe("HTTP Header Transport", function() {
 		});
 	});
 
-	describe("Sequential Logs", function() {
+	describe("Sequential Logs", function () {
 		var mockResponse;
-		beforeEach(function() {
+		beforeEach(function () {
 			mockResponse = new MockResponse();
 		});
 
-		it("Should log sequential logs calls in order", function() {
+		it("Should log sequential logs calls in order", function () {
 			var transport = new HttpHeaderTransport({
 				setHeader: mockResponse.setHeader.bind(mockResponse)
 			});
@@ -89,7 +89,7 @@ describe("HTTP Header Transport", function() {
 			assert.equal(mockResponse.headers['x-logger-1-debug'], 'Foo Bar');
 		});
 
-		it("Should log sequential logs of different types in order", function() {
+		it("Should log sequential logs of different types in order", function () {
 			var transport = new HttpHeaderTransport({
 				setHeader: mockResponse.setHeader.bind(mockResponse)
 			});
@@ -105,8 +105,8 @@ describe("HTTP Header Transport", function() {
 
 function MockResponse() {
 	return {
-		headers: {},
-		setHeader: function(key, value) {
+		headers:   {},
+		setHeader: function (key, value) {
 			this.headers[key] = value;
 		}
 	}

@@ -5,7 +5,8 @@ var winston = require('winston');
 //**** Change below to your require
 var HttpHeaderTransport = require('./main');
 
-app.get('/', function (req, res) {
+// Middleware example to setup our logger.
+app.use(function(req, res, next) {
 	res.logger = new (winston.Logger)({
 		transports: [
 			new HttpHeaderTransport({
@@ -22,7 +23,10 @@ app.get('/', function (req, res) {
 			debug: 7
 		}
 	});
+	next();
+});
 
+app.get('/', function (req, res) {
 	res.logger.log('debug', 'Basic Log Message');
 	res.logger.log('debug', 5.96168, {id: 'parse-duration'});
 	res.logger.log('warn', 'Severe so logged to console too.');
