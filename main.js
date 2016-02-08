@@ -8,7 +8,7 @@ var HttpHeaderTransport = function (options) {
 	this.silent = (options.silent !== undefined) ? options.silent : false;
 	this.level = options.level || 'debug';
 
-	this.getHeaderPrefix = options.getHeaderPrefix || getHeaderPrefix;
+	this.getHeaderId = options.getHeaderId || getHeaderPrefix;
 	this.cleanId = options.cleanId || cleanSpacesCamelCase;
 	this.setHeader = options.setHeader || function (name, value) {
 		};
@@ -18,29 +18,37 @@ var HttpHeaderTransport = function (options) {
 util.inherits(HttpHeaderTransport, WinstonTransport);
 
 HttpHeaderTransport.prototype.log = function (level, msg, data, callback) {
+	if(data instanceof Function) {
+		callback = data;
+		data = undefined;
+	}
+
 	if (this.silent) {
-		return callback(null, true);
+		return callback(null, {});
 	}
 
 	var id;
 	if(data && data.durationMs) {
 		// Special case for logger.profile style timing methods.
-		id = this.cleanId(this.getHeaderPrefix(level, msg));
-		this.setHeader(id, data.durationMs);
+		id = this.cleanId(this.getHeaderId(level, msg));
+		this.setHeader(id, data.durationMs/1000);
 	}
 	else if (data && data.id) {
 		// Set header based on a user specified id.
-		id = this.cleanId(this.getHeaderPrefix(level, data.id));
+		id = this.cleanId(this.getHeaderId(level, data.id));
 		this.setHeader(id, msg);
 	}
 	else {
 		// No id specified, create a unique one.
-		id = this.cleanId(this.getHeaderPrefix(this.getNextId(), level));
+		id = this.cleanId(this.getHeaderId(this.getNextId(), level));
 		this.setHeader(id, msg);
 	}
 
-	this.emit('logged');
-	return callback(null, true);
+	var result = {key: id, value: msg};
+	this.emit('logged', result);
+	if(callback) {
+		return callback(null, result);
+	}
 };
 
 HttpHeaderTransport.prototype.getNextId = function () {
@@ -52,7 +60,7 @@ HttpHeaderTransport.prototype.getNextId = function () {
 HttpHeaderTransport.prototype.name = 'httpHeaders';
 
 function getHeaderPrefix(a, b) {
-	return 'X-Logger-' + a + '-' + b + '-';
+	return 'X-Logger-' + a + '-' + b;
 }
 
 function cleanSpacesCamelCase(str) {
