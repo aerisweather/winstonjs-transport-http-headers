@@ -64,3 +64,14 @@ res.logger.log('warn', 'Uh oh');
 
 Docs
 ----
+
+### new HttpHeaders(options)
+
+| Param        | Type       | Default       | Description                                                               |
+| ------------ | ---------- | ------------- | ------------------------------------------------------------------------- |
+| setHeader    | `function` |               | A callable (key, value) that will set the header to the request. |
+| silent       | `boolean`  | `false`       | If enabled, logger will not log to HTTP Header, will not emit events. |
+| level        | `level`    | `"debug"`     | What level this logger should respond to, see Winston docs for more info. |
+| headerPrefix | `string`   | `"X-Logger-"` | A callable that provides a string that is prepended to each header. |
+| getHeaderId  | `function` | `(default)`   | A callable that gets a header ID based on passed options. |
+| cleanId      | `function` | `(default)`   | Cleans a string into a nice HTTP friendly header ID. |
