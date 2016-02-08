@@ -30,26 +30,26 @@ The logger should be added to the response, probably in middleware:
 ```javascript
 // Middleware example to setup our logger.
 app.use(function(req, res, next) {
-	res.logger = new (winston.Logger)({
-		transports: [
-			// Here is our new logger
-			new HttpHeaderTransport({
-				setHeader: res.set.bind(res),
-				level: 'debug'
-			}),
-			// We can use the HTTP Header logger in combination with other loggers too.
-			new (winston.transports.Console)({
-				level: 'warn'
-			})
-		],
-		//Setup Levels for this logger
-		levels:     {
-			warn: 4,
-			info: 6,
-			debug: 7
-		}
-	});
-	next();
+    res.logger = new (winston.Logger)({
+        transports: [
+            // Here is our new logger
+            new HttpHeaderTransport({
+                setHeader: res.set.bind(res),
+                level: 'debug'
+            }),
+            // We can use the HTTP Header logger in combination with other loggers too.
+            new (winston.transports.Console)({
+                level: 'warn'
+            })
+        ],
+        //Setup Levels for this logger
+        levels:     {
+            warn: 4,
+            info: 6,
+            debug: 7
+        }
+    });
+    next();
 });
 ```
 
