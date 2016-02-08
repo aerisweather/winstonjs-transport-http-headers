@@ -119,7 +119,6 @@ HttpHeaderTransport.prototype.getHeaderPrefix = function (options) {
 	else if (options.userId !== undefined) {
 		return this.headerPrefix + options.level + '-' + options.userId;
 	}
-	return this.headerPrefix + a + '-' + b;
 };
 
 /**
