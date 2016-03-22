@@ -1,6 +1,6 @@
 {
   "name": "winstonjs-transport-http-headers",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A WinstonJS transport that logs to HTTP headers, useful for sending profiling data to the browser that doesn't muddle the response body.",
   "main": "main.js",
   "scripts": {

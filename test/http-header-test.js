@@ -33,6 +33,18 @@ describe("HTTP Header Transport", function () {
 				done();
 			});
 		});
+
+		it("Should be able to set header prefix", function (done) {
+			var transport = new HttpHeaderTransport({
+				headerPrefix: 'x-hippos-'
+			});
+			transport.log('debug', 'Hello World', function (err, result) {
+				assert.ifError(err);
+				assert.equal(result.key, 'x-hippos-0-debug');
+				assert.equal(result.value, 'Hello World');
+				done();
+			});
+		});
 	});
 
 	describe("Specific Id", function () {

@@ -21,7 +21,7 @@ var HttpHeaderTransport = function (options) {
 	this.silent = (options.silent !== undefined) ? options.silent : false;
 	this.level = options.level || 'debug';
 
-	this.headerPrefix = 'X-Logger-';
+	this.headerPrefix = options.headerPrefix || 'X-Logger-';
 	this.getHeaderId = options.getHeaderId || this.getHeaderPrefix;
 	this.cleanId = options.cleanId || cleanSpacesCamelCase;
 	this.setHeader = options.setHeader || function (name, value) {
