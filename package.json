@@ -1,11 +1,11 @@
 {
   "name": "winstonjs-transport-http-headers",
-  "version": "0.1.2",
+  "version": "2.0.0",
   "description": "A WinstonJS transport that logs to HTTP headers, useful for sending profiling data to the browser that doesn't muddle the response body.",
   "main": "main.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "coveralls": "npm run coverage && coveralls < coverage/lcov.info"
   },
   "repository": {
@@ -29,16 +29,17 @@
   },
   "homepage": "https://github.com/aerisweather/winstonjs-transport-http-headers#readme",
   "dependencies": {
-    "winston": "^2.1.1"
+    "winston": "^3.2.1",
+    "winston-transport": "^4.3.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.6",
-    "express": "^4.13.4",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
+    "coveralls": "^3.0.2",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.0.0",
-    "nock": "^7.0.2",
-    "sinon": "^1.17.3",
-    "supertest": "^1.1.0"
+    "nock": "^10.0.6",
+    "nyc": "^13.2.0",
+    "sinon": "^7.2.3",
+    "supertest": "^3.4.2"
   }
 }

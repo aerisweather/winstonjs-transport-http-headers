@@ -3,6 +3,8 @@ WinstonJS Transport: HTTP Headers
 
 A WinstonJS transport that logs to HTTP headers, useful for sending profiling data to the browser that doesn't muddle the response body.
 
+**v2 Supports Node 8, 10 and Winston v3**
+
 Master Build Status:
 [![Build Status](https://travis-ci.org/aerisweather/winstonjs-transport-http-headers.svg?branch=master)](https://travis-ci.org/aerisweather/winstonjs-transport-http-headers)
 [![Coverage Status](https://coveralls.io/repos/aerisweather/winstonjs-transport-http-headers/badge.svg?branch=master&service=github)](https://coveralls.io/github/aerisweather/winstonjs-transport-http-headers?branch=master)
